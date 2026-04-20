@@ -6,14 +6,29 @@ export default function MessageQueue({ listOfData, setListOfData, setActiveTab }
   const headingList = ['Id', 'Logged By', 'Message', 'Toxicity Type', 'Impact', 'Status', 'Action']
   const [showModal, setShowModal] = useState(false)
   const [selectedItem, setSelectedItem] = useState({})
+  const [impactFilter, setImpactFilter] = useState("")
 
   const handleActionButton = (item) => {
     setShowModal(true)
     setSelectedItem(item)
   }
 
+  const filteredData = listOfData.filter((item) => {
+    const impactMatch = impactFilter ? item.impact === impactFilter : true
+    return impactMatch
+  })
+
   return (
     <div className="listOuterBox">
+      <div className="filters">
+        <select onChange={(e) => setImpactFilter(e.target.value)}>
+          <option value="">All Impact</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Critical">Critical</option>
+        </select>
+      </div>
       <table border="1" cellPadding='10'>
         <thead>
           <tr>
@@ -23,7 +38,7 @@ export default function MessageQueue({ listOfData, setListOfData, setActiveTab }
           </tr>
         </thead>
         <tbody>
-          {listOfData.map((element) => (
+          {filteredData.map((element) => (
             <tr key={element.id} style={{ backgroundColor: element.status === "Untagged" ? "#ffe6e6" : "white" }}>
               <td>{`#${element.id}`}</td>
               <td>{element.loggedBy}</td>

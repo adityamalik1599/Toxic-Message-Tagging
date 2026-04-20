@@ -6,13 +6,15 @@ export default function TaggingPanelModal({ setListOfData, data, setShowModal, s
   const commentRef = useRef('')
   const [selectedToxicity, setSelectedToxicity] = useState(data.toxicity || [])
   const [selectedImpact, setSelectedImpact] = useState(data.impact || "")
+  const [open, setOpen] = useState(false)
+
   const handleSubmitTagged = function () {
     if (selectedToxicity.length === 0) {
-      alert("Please select Toxicity Type");
-      return;
+      alert("Please select Toxicity Type")
+      return
     } else if (!selectedImpact) {
-      alert("Please select Impact");
-      return;
+      alert("Please select Impact")
+      return
     }
 
     const updatedItem = {
@@ -23,13 +25,13 @@ export default function TaggingPanelModal({ setListOfData, data, setShowModal, s
       comment: commentRef.current.value,
       updatedBy: 'Get it from Auth',
       dateTime: new Date().toLocaleString()
-    };
+    }
 
     setListOfData((prev) =>
       prev.map((item) =>
         item.id === data.id ? updatedItem : item
       )
-    );
+    )
     setShowModal(false)
     setActiveTab("processed")
   }
@@ -37,7 +39,10 @@ export default function TaggingPanelModal({ setListOfData, data, setShowModal, s
   const listOfImpact = ['Low', 'Medium', 'High', 'Critical']
   return (
     <div className='modalOverlay' onClick={() => setShowModal(false)}>
-      <div className='modalBox' onClick={(e) => e.stopPropagation()}>
+      <div className='modalBox' onClick={(e) => {
+        setOpen(false)
+        e.stopPropagation()
+      }}>
         <h3 className="modalTitle">Tag Message</h3>
         <div className='modalGroup'>
           <label>Message : </label>
@@ -53,6 +58,8 @@ export default function TaggingPanelModal({ setListOfData, data, setShowModal, s
           <ToxicTypeDropDown
             selected={selectedToxicity}
             setSelected={setSelectedToxicity}
+            open={open}
+            setOpen={setOpen}
           />
         </div>
         <div className='modalGroup'>

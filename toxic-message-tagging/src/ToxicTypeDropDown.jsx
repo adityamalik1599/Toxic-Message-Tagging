@@ -1,7 +1,4 @@
-import { useState } from "react";
-
-export default function ToxicTypeDropDown({ selected, setSelected }) {
-  const [open, setOpen] = useState(false);
+export default function ToxicTypeDropDown({ selected, setSelected, open, setOpen }) {
 
   const listOfToxicType = [
     "Harassment",
@@ -21,16 +18,19 @@ export default function ToxicTypeDropDown({ selected, setSelected }) {
 
   const handleChange = (type) => {
     if (selected.includes(type)) {
-      setSelected(selected.filter((item) => item !== type));
+      setSelected(selected.filter((item) => item !== type))
     } else {
-      setSelected([...selected, type]);
+      setSelected([...selected, type])
     }
   }
 
   return (
     <div style={{ position: "relative" }}>
       <div
-        onClick={() => setOpen(!open)}
+        onClick={(e) => {
+          setOpen(!open)
+          e.stopPropagation()
+        }}
         style={{
           border: "1px solid #ccc",
           padding: "5px",
@@ -53,7 +53,7 @@ export default function ToxicTypeDropDown({ selected, setSelected }) {
           }}
         >
           {listOfToxicType.map((type) => (
-            <div key={type}>
+            <div key={type} onClick={(e) => e.stopPropagation()}>
               <input
                 type="checkbox"
                 checked={selected.includes(type)}

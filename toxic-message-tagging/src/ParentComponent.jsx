@@ -5,7 +5,7 @@ import ProcessedReports from "./ProcessedReports"
 import './App.css'
 
 export default function ParentController() {
-  const [activeTab, setActiveTab] = useState("queue");
+  const [activeTab, setActiveTab] = useState("queue")
   const [listOfData, setListOfData] = useState(() =>
     JsonData.map((item) => ({
       ...item,
